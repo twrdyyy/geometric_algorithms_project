@@ -1,8 +1,13 @@
 from utils.sweep import get_intersections
+from typing import *
+from utils.data_structures import DCEL
 
-def overlay_of_subdivision(S1, S2):
-    
-    eps = 1e-14
+line = List[List[float]]
+point = List[float]
+
+
+def overlay_of_subdivision(S1: DCEL, S2: DCEL) -> DCEL:
+    eps = 1e-10
 
     vectors = [
         [eps, eps],
