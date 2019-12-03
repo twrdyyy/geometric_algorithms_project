@@ -7,7 +7,7 @@ point = List[float]
 
 
 def overlay_of_subdivision(S1: DCEL, S2: DCEL) -> DCEL:
-    eps = 1e-10
+    eps = 1e-5
 
     vectors = [
         [eps, eps],
@@ -35,10 +35,13 @@ def overlay_of_subdivision(S1: DCEL, S2: DCEL) -> DCEL:
         v1 = list(v1)
         v2 = list(v2)
 
+        a = (v1[1]-v2[1])/(v1[0]-v2[0])
+        b = (v1[1]-a*v1[0])
+
         v1[0] += vec[0]
-        v1[1] += vec[1]
+        v1[1] = (a*v1[0] + b)
         v2[0] -= vec[0]
-        v2[1] -= vec[1]
+        v2[1] = (a*v2[0] + b)
 
         v1 = tuple(v1)
         v2 = tuple(v2)
@@ -59,10 +62,13 @@ def overlay_of_subdivision(S1: DCEL, S2: DCEL) -> DCEL:
         v1 = list(v1)
         v2 = list(v2)
 
+        a = (v1[1]-v2[1])/(v1[0]-v2[0])
+        b = (v1[1]-a*v1[0])
+
         v1[0] += vec[0]
-        v1[1] += vec[1]
+        v1[1] = (a*v1[0] + b)
         v2[0] -= vec[0]
-        v2[1] -= vec[1]
+        v2[1] = (a*v2[0] + b)
 
         v1 = tuple(v1)
         v2 = tuple(v2)
@@ -70,28 +76,25 @@ def overlay_of_subdivision(S1: DCEL, S2: DCEL) -> DCEL:
         S2_lines.append([v1, v2])
         lines.append([v1, v2])
     
-    
-    
+
     #compute intersection points of lines list
     P, L = get_intersections(lines)
     #P = list of intersetion points
     #L = list of new lines for D structure    
     
-    D_vl = S1.vl + S2.vl + P 
+    D_vl = S1.vl.copy() + S2.vl.copy() + P.copy() 
+    
     
     #delete possible repetition
-    D_vl = list(set(D_vl))
+    D_vl = sorted(list(set(D_vl)))
     
     #tmp dict for O(1) access to index of vertex
     vertices = { p : idx for idx, p in enumerate(D_vl) }
-        
+
     #mental disease 
-    D_el = [[vertices[x], vertices[y]] for x, y in [x.get_line() for x in L if L[x] == 1]]
-    
+    D_el = [[vertices[x], vertices[y]] for x, y in [x.get_line() for x in L if L[x] == 1] if x != y]
+
     #now create DCEL structure for D
     D = DCEL(D_vl, D_el)
-    
-    #and build all vertices, half-edges and faces
-    D.build_dcel()
     
     return D

@@ -91,7 +91,6 @@ class DCEL():
         self.el = el
         self.vl = vl
 
-
     def build_dcel(self):
         """
         Creates the dcel from the list of vertices and edges
@@ -129,7 +128,7 @@ class DCEL():
                 v.hedgelist[0].prevhedge = v.hedgelist[l-1]
 
         #Step 4: Face assignment
-        provlist = self.hedges[:]
+        provlist = self.hedges
         nf = 0
         nh = len(self.hedges)
 
@@ -187,6 +186,7 @@ class Event:
             return self.event_type == 'start'
         return self.position[0] < other.position[0]
 
+
 'structure that handles Line in sweeping algorithm'
 class Line:
     def set_class(det: determinant, e: float =1e-8):
@@ -217,3 +217,6 @@ class Line:
     
     def __hash__(self):
         return hash(self.start) + hash(self.end)
+
+    def __str__(self):
+        return str([self.start, self.end])

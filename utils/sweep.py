@@ -9,8 +9,11 @@ line = List[List[float]]
 point = List[float]
 determinant = Callable
 
+def r(v):
+    return (round(v[0], 1), round(v[1], 1)) 
+
 'determinant function' 
-def det(a: point, b: point, c: point) -> int:
+def det(a: point, b: point, c: point) -> float:
     return a[0]*b[1] + a[1]*c[0] + b[0]*c[1] - b[1]*c[0] - a[1]*b[0] - a[0]*c[1]
 
 'a bit tricky intersection checker'
@@ -37,7 +40,7 @@ def check_intersection(first: Line, second: Line, T: sortedlist, Q: sortedset) -
 
         
 'sweeping algorithm to detect intersection points'
-def get_intersections(lines: List[line], e: float =1e-14, det: determinant =det) -> List[point]:
+def get_intersections(lines: List[line], e: float =1e-10, det: determinant =det) -> List[point]:
     
     #dict of lines for O(1) eddting at intersection point
     L = dict()
@@ -48,11 +51,11 @@ def get_intersections(lines: List[line], e: float =1e-14, det: determinant =det)
     #fill T structure with start and end point events
     T = []
     for line in lines:
-        l = Line(line) #convert line to Line structure
+        l = Line([r(line[0]), r(line[1])]) #convert line to Line structure
         T.append(Event(line[0],'start',l))
         T.append(Event(line[1],'end',l))
         L[l] = 1
-    
+
     T = sortedlist(T) #timeline structure declaration
     Q = sortedset() #broom structure declaration
     
@@ -63,9 +66,10 @@ def get_intersections(lines: List[line], e: float =1e-14, det: determinant =det)
     intersections = set()
     
     while len(T) > 0:
-        
+
         event = T.pop() #get most left event from x axis 
         
+
         #start of the Line case
         if event.event_type == 'start':
             
@@ -75,19 +79,58 @@ def get_intersections(lines: List[line], e: float =1e-14, det: determinant =det)
             #check new possible intersections for line below and above newly added line
             b = Q.index(event.line) 
             b -= 1
-            if b>=0 and b < len(Q):                
+            if b>=0 and b < len(Q):
+                if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
+                    r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])):
+                    intersections.add(event.position)
+                    line = Q[b].get_line()
+                    L[Line([r(line[0]), r(line[1])])] = 0
+                    L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
+                    L[Line([r(Q[b].get_line()[0]), r(event.position)])] = 1
+
                 check_intersection(Q[b], event.line, T, Q)
             
             b += 2
             if b>=0 and b < len(Q):
+                if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
+                    r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])):
+                    intersections.add(event.position)
+                    line = Q[b].get_line()
+                    L[Line([r(line[0]), r(line[1])])] = 0
+                    L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
+                    L[Line([r(Q[b].get_line()[0]), r(event.position)])] = 1
+
                 check_intersection(Q[b], event.line, T, Q)
             
             
         #end of Line case
         elif event.event_type == 'end':
             
+
             #check new possible intersections for line below and above lately deleted line
             k = Q.index(event.line)
+
+            b = k
+            b -= 1
+            if b>=0 and b < len(Q):
+                if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
+                    r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])):
+                    intersections.add(event.position)
+                    line = Q[b].get_line()
+                    L[Line([r(line[0]), r(line[1])])] = 0
+                    L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
+                    L[Line([r(Q[b].get_line()[0]), r(event.position)])] = 1
+
+            b += 2
+            if b>=0 and b < len(Q):
+                if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
+                    r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])): 
+                    intersections.add(event.position)
+                    line = Q[b].get_line()
+                    L[Line([r(line[0]), r(line[1])])] = 0
+                    L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
+                    L[Line([r(Q[b].get_line()[0]), r(event.position)])] = 1
+
             a = k+1
             b = k-1
             if a < len(Q) and b < len(Q) and a>=0 and b>=0:    
@@ -102,17 +145,26 @@ def get_intersections(lines: List[line], e: float =1e-14, det: determinant =det)
                 continue
             
             #delete lines from structure
-            L[event.line[0]] = 0
-            L[event.line[1]] = 0
+
+            line = event.line[0].get_line()
+            L[Line([r(line[0]), r(line[1])])] = 0
+
+            line = event.line[1].get_line()
+            L[Line([r(line[0]), r(line[1])])] = 0
             #add four new lines to structure
-            L[Line([event.line[0].get_line()[0], event.position])] = 1
-            L[Line([event.position, event.line[0].get_line()[1]])] = 1
-            L[Line([event.line[1].get_line()[0], event.position])] = 1
-            L[Line([event.position, event.line[1].get_line()[1]])] = 1
+
+            # if event.line[0].get_line()[0][0] - event.line[0].get_line()[1][0] > 1e-9:
+            L[Line([r(event.line[0].get_line()[0]), event.position])] = 1
+            L[Line([event.position, r(event.line[0].get_line()[1])])] = 1
+
+            # if event.line[1].get_line()[0][0] - event.line[1].get_line()[1][0] > 1e-9:
+            L[Line([r(event.line[1].get_line()[0]), event.position])] = 1
+            L[Line([event.position, r(event.line[1].get_line()[1])])] = 1
             
             
             intersections.add(event.position) #add point to intersetion set
             
+
             #change Line ordering in broom set: s, s' = s', s 
             Q.discard(event.line[0])
             Q.discard(event.line[1])
@@ -121,7 +173,8 @@ def get_intersections(lines: List[line], e: float =1e-14, det: determinant =det)
             Line.ordering_x += 1e-5
             Q.add(event.line[0])
             Q.add(event.line[1])
-              
+            
+
             #check new possible intersections
             k = Q.index(event.line[0])
             m = Q.index(event.line[1])
