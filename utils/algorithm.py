@@ -1,5 +1,20 @@
+from utils.sweep import get_intersections
+
 def overlay_of_subdivision(S1, S2):
-        
+    
+    eps = 1e-14
+
+    vectors = [
+        [eps, eps],
+        [eps,-eps],
+        [-eps,-eps],
+        [-eps,eps]
+    ]
+
+    def get_direction_of_line(beg, end):
+        return (0 if end[0] - beg[0] > 0 else 2) + (1 if end[1] - beg[1] < 0 else 0)
+
+
     #Firstly let's get list of lines from Dcel.el and Dcel.vl lists
     lines = []
     S1_lines = []
@@ -46,8 +61,6 @@ def overlay_of_subdivision(S1, S2):
 
         v1 = tuple(v1)
         v2 = tuple(v2)
-
-
 
         S2_lines.append([v1, v2])
         lines.append([v1, v2])
