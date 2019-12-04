@@ -6,7 +6,7 @@ Problemem tego projektu jest wyznaczanie **przecięcia dwóch podziałów** na p
 
 Rozwiązanie przedstawione opiera się na dwóch kluczowych elementach:
 - [strukturze danych Doubly Connected Edge List (DCEL)](../utils/data_structures.py)
-- [zmodyfikowanym algorytmie zamiatania](../sweeping_algorithm.ipynb)
+- [zmodyfikowanym algorytmie zamiatania](./sweeping_algorithm.ipynb)
 
 Szczegóły każdego z nich są opisane w powyższych linkach.
 
