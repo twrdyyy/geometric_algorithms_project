@@ -5,8 +5,8 @@
 Problemem tego projektu jest wyznaczanie **przecięcia dwóch podziałów** na płaszczyźnie dwuwymiarowej oraz wyznaczenie podziału z tego wynikającego. Problem ten jest podstawą operacji logicznych na zbiorach, które z kolej są niezbędne przy różnego rodzaju problemach płaszczyzn dwuwymiarowych, np. w geografii lub szeroko pojętym mapowaniu.
 
 Rozwiązanie przedstawione opiera się na dwóch kluczowych elementach:
-- [strukturze danych Doubly Connected Edge List (DCEL)] (../utils/data_structures.py)
-- [zmodyfikowanym algorytmie zamiatania] (../sweeping_algorithm.ipynb)
+- [strukturze danych Doubly Connected Edge List (DCEL)](../utils/data_structures.py)
+- [zmodyfikowanym algorytmie zamiatania](../sweeping_algorithm.ipynb)
 
 Szczegóły każdego z nich są opisane w powyższych linkach.
 
