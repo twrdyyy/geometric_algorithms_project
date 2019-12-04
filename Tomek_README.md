@@ -1,25 +1,36 @@
 # Geometric Algorithms Project
 
+### **List of contents**
+- [Introduction](#introduction)
+- [Algorithm](#algorithm)
+- [Data structures](#data-structures)
+- [Implementation details](#implementation-details)
+- [Bibliography](#bibiliography)
+
 ## Introduction
 
-Problemem tego projektu jest wyznaczanie **przecięcia dwóch podziałów** na płaszczyźnie dwuwymiarowej oraz wyznaczenie podziału z tego wynikającego. Problem ten jest podstawą operacji logicznych na zbiorach, które z kolej są niezbędne przy różnego rodzaju problemach płaszczyzn dwuwymiarowych, np. w geografii lub szeroko pojętym mapowaniu.
+Stated issue is to compute **subdivision overlay** on two-dimensional surface and to compute the resulting subdivision. This problem is neccessary to logical operations on subdivisions which form methods used in map-related operations, like in computer design tools, cartography or geology.
 
-Rozwiązanie przedstawione opiera się na dwóch kluczowych elementach:
-- [strukturze danych Doubly Connected Edge List (DCEL)](./utils/data_structures.py)
-- [zmodyfikowanym algorytmie zamiatania](./sweeping_algorithm.ipynb)
+Following solution to stated problem is based on two key elements
+* Data structure keeping elements of subdivision - [Double Connected Edge List (DCEL)](./utils/data_structures.py)
+* Algorithm detecting overlay subdivision - [modified sweeping algorithm](./sweeping_algorithm.ipynb)
 
-Szczegóły każdego z nich są opisane w powyższych linkach.
+Project also includes visualisation and test data sets.
 
+## Algorithm
+
+Algorithm resembles sweeping algorithm that detects points of intersections in a set of line segments, however it is based on DCEL instead of more simple data structures. It is also extended by adding intersection points to set of vertexes and followingly created edges.
 
 ## Data structures
 
-Strukturą wykorzystywaną w algorytmie jest _Doubly Connected Edge List_ (DCEL), która składa się z struktur:
+Structure used in project is _Doubly Connected Edge List_ (DCEL), which is a doubly linked list consisting of elements:
 
-* _Vertex_ - klasa wierzchołków
-* _Hedge_ - klasa półkrawędzi (wektorów - każda krawędź składa się z dwóch przeciwnie zwróconych półkrawędzi)
-* _Face_ - klasa ścian podziału
+* _Vertex_ - representing vertexes of subdivisions
+* _Hedge_ - representing edges in form of two vectors oppositly directed (each one is a half-edge - here: hedge)
+* _Face_ - **TEGO NIE UŻYWAMY TO CHYBA TRZEBA WYJEBAC**
 
-DCEL zawiera też w sobie metodę dodawania półkrawędzi generującą odpowiedni wierzchołki i ściany.
 
-Na potrzeby algorytmu zamiatania występują też klasy _Event_ i _Line_.
+## Bibliography
 
+* Computational Geometry Algorithms and Applications, 3rd Ed - de Berg
+* **DOPISAC**
