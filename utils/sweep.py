@@ -82,7 +82,7 @@ def get_intersections(lines: List[line], e: float =1e-10, det: determinant =det)
             if b>=0 and b < len(Q):
                 if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
                     r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])):
-                    intersections.add(event.position)
+                    intersections.add(r(event.position))
                     line = Q[b].get_line()
                     L[Line([r(line[0]), r(line[1])])] = 0
                     L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
@@ -94,7 +94,7 @@ def get_intersections(lines: List[line], e: float =1e-10, det: determinant =det)
             if b>=0 and b < len(Q):
                 if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
                     r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])):
-                    intersections.add(event.position)
+                    intersections.add(r(event.position))
                     line = Q[b].get_line()
                     L[Line([r(line[0]), r(line[1])])] = 0
                     L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
@@ -115,7 +115,7 @@ def get_intersections(lines: List[line], e: float =1e-10, det: determinant =det)
             if b>=0 and b < len(Q):
                 if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
                     r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])):
-                    intersections.add(event.position)
+                    intersections.add(r(event.position))
                     line = Q[b].get_line()
                     L[Line([r(line[0]), r(line[1])])] = 0
                     L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
@@ -125,7 +125,7 @@ def get_intersections(lines: List[line], e: float =1e-10, det: determinant =det)
             if b>=0 and b < len(Q):
                 if abs(det(event.position, Q[b].get_line()[0], Q[b].get_line()[1])) < 1e-4 and (
                     r(event.position) != r(Q[b].get_line()[0]) and r(event.position) != r(Q[b].get_line()[1])): 
-                    intersections.add(event.position)
+                    intersections.add(r(event.position))
                     line = Q[b].get_line()
                     L[Line([r(line[0]), r(line[1])])] = 0
                     L[Line([r(event.position), r(Q[b].get_line()[1])])] = 1
