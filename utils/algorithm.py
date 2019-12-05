@@ -94,6 +94,10 @@ def overlay_of_subdivision(S1: DCEL, S2: DCEL) -> DCEL:
     #mental disease 
     D_el = [[vertices[x], vertices[y]] for x, y in [x.get_line() for x in L if L[x] == 1] if x != y]
 
+    D_el = list(set([tuple(sorted(x)) for x in D_el]))
+
+    D_el += [[x[1], x[0]] for x in D_el]    
+
     #now create DCEL structure for D
     D = DCEL(D_vl, D_el)
     
