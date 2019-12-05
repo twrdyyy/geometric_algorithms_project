@@ -1,0 +1,125 @@
+# Dokumentacja kodu
+
+### **List of contents**
+- [utils directory](#utils-directory)
+    - [data_structures.py](#data_structures.py)
+    - [sweep.py](#sweep.py)
+    - [algorithm.py](#algorithm.py)
+
+
+
+## Folder _utils_
+
+Zawiera struktury oraz algorytm wykorzystywane w programie
+
+## data_structures.py
+-----
+Plik zawierający implementacje struktur wykorzystanych w projekcie
+
+* **Klasa Vertex**  
+
+    * Opis  
+        * Przechowuje dane wierzchołków  
+        * Zawiera metodę samosortującą incydentne krawędzie po kącie
+   
+    * Zmienne  
+        * x,y - współrzędne  
+        * hedgelist - lista półkrawędzi incydentnych do wierzchołka  
+
+* **Klasa Hedge**  
+
+    * Opis  
+        * Przechowuje dane ścian  
+   
+    * Zmienne  
+        * origin - wierzchołek końcowy
+        * twin - bliźniacza półkrawędź skierowana przeciwnie
+        * face - ściana leżąca po lewej
+        * nexthedge - półkrawędź następnik
+        * angle - kąt ułożenia półkrawędzi
+        * prevhedge - półkrawędź poprzednik
+        * lenght - długość półkrawędzi
+        
+* **Klasa Face**
+
+    * Opis  
+        * Przechowuje dane ścian
+    * Zmienne  
+        * wedge - jedną z półkrawędzi otaczających ścianę
+       
+* **Klasa DCEL**  
+
+    * Opis  
+        * Przechowuje dwukierunkowy łańcuch odsyłaczowy krawędzi
+        * Zawiera metodę `build_dcel` tworzącą DCEL
+   
+    * Zmienne  
+        * vertices - lista wierzchołków
+        * hedges - lista półkrawędzi
+        * faces - lista ścian
+        * el - ??
+        * vl - ??
+        
+* **Klasa Event**  
+
+    * Opis  
+        * Przechowuje dane potrzebne przy algorytmie zamiatania  
+        * Zawiera porównywacz dla struktury stanu z algorytmu zamiatania
+   
+    * Zmienne  
+        * position - współrzędne  
+        * event_type - typ zdarzenia (początek, koniec lub przecięcie odcinka)
+        * line - odcinek do którego należy
+    
+        
+* **Klasa Line**  
+
+    * Opis  
+        * Przechowuje dane potrzebne przy algorytmie zamiatania 
+        * Zawiera metody potrzebne w algorytmie zamiatania
+       
+    * Zmienne  
+        * start, end - współrzędne  
+        * m,b - współczynniki prostej
+        
+        
+## sweep.py
+-----
+Plik zawierający algorytm zamiatania. 
+Importuje zbiory _sortedset_ and _sortedlist_ z pakietu blist   
+Importuje klasy _Line_ and _Event_ z pliku data_structures.py  
+
+* **Wyznaczanie przecięć krawędzi**
+`def get_intersections`  
+    * Opis  
+        * Wyznacza punkty przecięć krawędzi i dodaje je do podziału  
+    * Argumenty  
+        * List - Lista odcinków będących krawędziami
+        * e - epsilon, dokładność porównywania wyznacznika do zera
+    * Zwraca
+        * Listę punktów będących wierzchołkami początkowych krawędzi i przecięciami krawędzi
+        * Listę krawędzi wraz z krawędziami dodanymi w miejscu przecięć
+        
+        
+## algorithm.py
+-----
+Plik zawierający algorytm wyznaczania nałożenia dwóch podziałów
+Importuje metodę _get_intersections_ z pliku sweep.py
+Importuje klasę _DCEL_ z pliku data_structures.py  
+
+* **Wyznaczanie nałożenia dwóch podziałów** 
+`def overlay_of_subdivision`
+    * Opis  
+        * Wyznacza zbiór wynikowy będący nałożeniem dwóch podziałów
+    * Argumenty  
+        * S1, S2 - listy DCEL reprezentujące 1 i 2 podział
+    * Zwraca  
+        * Listę DCEL reprezentującą nałożenie dwóch podziałów
+        
+
+## visualiser.ipynb
+-----
+Plik zawierający wizualizację algorytmu nakładania podziałów
+
+
+
