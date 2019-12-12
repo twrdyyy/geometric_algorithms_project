@@ -1,5 +1,8 @@
 # Geometric Algorithms Project
 
+# Presentation
+[link](https://docs.google.com/presentation/d/14aUMZPJqldM486m35DJWu3BSAt45hNbQjbAyWgx-fRI/edit?usp=sharing)
+
 # TODO 
  - dokumentacja Filip & Tomek
  - opisać visualizer FIlip
