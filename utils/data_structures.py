@@ -7,8 +7,6 @@ line = List[List[float]]
 point = List[float]
 determinant = Callable
 
-
-
 class Vertex:
     """Minimal implementation of a vertex of a 2D dcel"""
 
@@ -128,7 +126,7 @@ class DCEL():
                 v.hedgelist[0].prevhedge = v.hedgelist[l-1]
 
         #Step 4: Face assignment
-        provlist = self.hedges
+        provlist = self.hedges.copy()
         nf = 0
         nh = len(self.hedges)
 
@@ -216,7 +214,7 @@ class Line:
         return self.m*x+self.b > other.m*x+other.b
     
     def __hash__(self):
-        return hash(self.start) + hash(self.end)
+        return hash((hash(self.start), hash(self.end)))
 
     def __str__(self):
         return str([self.start, self.end])

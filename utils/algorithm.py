@@ -96,7 +96,7 @@ def overlay_of_subdivision(S1: DCEL, S2: DCEL) -> DCEL:
 
     D_el = list(set([tuple(sorted(x)) for x in D_el]))
 
-    D_el += [[x[1], x[0]] for x in D_el]    
+    # D_el += [[x[1], x[0]] for x in D_el]    
 
     #now create DCEL structure for D
     D = DCEL(D_vl, D_el)

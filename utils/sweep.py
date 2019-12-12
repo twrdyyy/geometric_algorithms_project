@@ -10,7 +10,7 @@ point = List[float]
 determinant = Callable
 
 def r(v):
-    return (round(v[0], 1), round(v[1], 1)) 
+    return (round(v[0]), round(v[1])) 
 
 'determinant function' 
 def det(a: point, b: point, c: point) -> float:
@@ -56,7 +56,7 @@ def get_intersections(lines: List[line], e: float =1e-10, det: determinant =det)
         T.append(Event(line[1],'end',l))
         L[l] = 1
 
-    T = sortedlist(T) #timeline structure declaration
+    T = sortedset(T) #timeline structure declaration
     Q = sortedset() #broom structure declaration
     
     #order of storing Lines in timeline structure
